@@ -47,4 +47,75 @@ class MatrixMultiplierTest {
         double[][] expected = {{0, 0}, {0, 0}};
         assertMatrixEquals(expected, MatrixMultiplier.multiplyPlain(a, zero));
     }
+    @Test
+    void multiplyBlocked_4x4_block2_returnsSameAsPlain() {
+        double[][] a = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}
+        };
+        double[][] b = {
+                {1, 0, 2, 0},
+                {0, 1, 0, 2},
+                {3, 0, 4, 0},
+                {0, 3, 0, 4}
+        };
+
+        double[][] plain = MatrixMultiplier.multiplyPlain(a, b);
+        double[][] blocked = MatrixMultiplier.multiplyBlocked(a, b, 2);
+
+        assertMatrixEquals(plain, blocked);
+    }
+
+    @Test
+    void multiplyBlocked_8x8_block4_returnsSameAsPlain() {
+        double[][] a = new double[8][8];
+        double[][] b = new double[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                a[i][j] = i + j;
+                b[i][j] = i - j;
+            }
+        }
+
+        double[][] plain = MatrixMultiplier.multiplyPlain(a, b);
+        double[][] blocked = MatrixMultiplier.multiplyBlocked(a, b, 4);
+
+        assertMatrixEquals(plain, blocked);
+    }
+
+    @Test
+    void multiplyBlocked_blockEqualsSize_returnsSameAsPlain() {
+        double[][] a = {
+                {1, 2},
+                {3, 4}
+        };
+        double[][] b = {
+                {5, 6},
+                {7, 8}
+        };
+
+        double[][] plain = MatrixMultiplier.multiplyPlain(a, b);
+        double[][] blocked = MatrixMultiplier.multiplyBlocked(a, b, 2);
+
+        assertMatrixEquals(plain, blocked);
+    }
+
+    @Test
+    void multiplyBlocked_2x2_block1_returnsSameAsPlain() {
+        double[][] a = {
+                {1, 2},
+                {3, 4}
+        };
+        double[][] b = {
+                {5, 6},
+                {7, 8}
+        };
+
+        double[][] plain = MatrixMultiplier.multiplyPlain(a, b);
+        double[][] blocked = MatrixMultiplier.multiplyBlocked(a, b, 1);
+
+        assertMatrixEquals(plain, blocked);
+    }
 }
